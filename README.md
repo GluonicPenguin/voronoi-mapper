@@ -1,13 +1,13 @@
 # voronoi-mapper
 Plot a series of places on a map in the style of a Voronoi diagram, based on an input csv file formatted in the following style (columns in this order - the column header names do not matter):
 
-| Labels / Places | X-Coord / Latitude | Y-Coord / Longitude | Colour Place / Been to Place |
+| Labels / Places | Y-Coord / Latitude | X-Coord / Longitude | Colour Place / Been to Place |
 |:---------------:|:------------------:|:-------------------:|:----------------------------:|
-|     England     |            52.3555 |              1.1743 |               Y              |
-|   Isle of Man   |            54.2361 |              4.5481 |               N              |
-|    N Ireland    |            54.7877 |              6.4923 |               N              |
-|     Scotland    |            56.4907 |              4.2026 |               Y              |
-|      Wales      |            52.1307 |              3.7837 |               Y              |
+|     England     |            52.3555 |             -1.1743 |               Y              |
+|   Isle of Man   |            54.2361 |             -4.5481 |               N              |
+|    N Ireland    |            54.7877 |             -6.4923 |               N              |
+|     Scotland    |            56.4907 |             -4.2026 |               Y              |
+|      Wales      |            52.1307 |             -3.7837 |               Y              |
 
 ## Step 1: Clone `voronoi-mapper` repo
 Clone the `voronoi-mapper` repo to your area. Note you may need to set up ssh keys and add them to your GitHub account first, see [here](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
