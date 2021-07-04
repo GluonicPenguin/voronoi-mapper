@@ -1,5 +1,5 @@
 # voronoi-mapper
-Plot a series of places on a map in the style of a Voronoi diagram, based on an input csv/txt file formatted in the following style (columns in any order):
+Plot a series of places on a map in the style of a Voronoi diagram, based on an input csv/txt file formatted in the following style (columns in this order - the column header names do not matter):
 
 | Labels / Places | X-Coord / Latitude | Y-Coord / Longitude | Colour Place / Been to Place |
 |:---------------:|:------------------:|:-------------------:|:----------------------------:|
