@@ -1,4 +1,4 @@
-## voronoi-mapper
+# voronoi-mapper
 Plot a series of places on a map in the style of a Voronoi diagram, based on an input csv/txt file formatted in the following style (columns in any order):
 
 | Labels / Places | X-Coord / Latitude | Y-Coord / Longitude | Colour Place / Been to Place |
@@ -9,14 +9,14 @@ Plot a series of places on a map in the style of a Voronoi diagram, based on an 
 |     Scotland    |            56.4907 |              4.2026 |               Y              |
 |      Wales      |            52.1307 |              3.7837 |               Y              |
 
-# Step 1: Clone `voronoi-mapper` repo
+## Step 1: Clone `voronoi-mapper` repo
 Clone the `voronoi-mapper` repo to your area. Note you may need to set up ssh keys and add them to your GitHub account first.
 
 ```bash
 git clone ssh://git@github.com:GluonicPenguin/voronoi-mapper.git
 ```
 
-# Step 2: Install requirements
+## Step 2: Install requirements
 
 `voronoi-mapper` uses a conda installer, with the conda environment set up in Miniconda. To set up Miniconda3 and install the mapper requirements, do the following:
 
@@ -39,8 +39,13 @@ conda env create -f voronoi_mapper_env_requirements.yaml
 conda activate voronoi_mapper_env
 ```
 
-# Step 3: Use mapper
+## Step 3: Use mapper
 
+`voronoi-mapper` takes two positional arguments: the input csv/txt file and the output file name and path. An optional argument for the output plot type, e.g. pdf or png, is available (default is pdf). For example:
+
+```
+python voronoi_mapper.py /path/to/places.csv /path/for/outplot.png -p png
+```
 
 
 
