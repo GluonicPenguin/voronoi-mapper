@@ -2,8 +2,9 @@ name: voronoi_mapper_env
 dependencies:
   # Requirements for fit plotting
   - python=3.7
+  - pandas
   - pip>=21.0.1
-  #- conda-forge::matplotlib
+  - conda-forge::matplotlib
   - pip:
     - scipy
 
