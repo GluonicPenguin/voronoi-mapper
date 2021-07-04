@@ -48,6 +48,6 @@ python voronoi_mapper.py /path/to/places.csv /path/for/places_plot
 
 The result should look like the following:
 
-![Alt text](examples/place_plot.png?raw=true "Default example of places")
+![Alt text](examples/places_plot.png?raw=true "Default example of places")
 
 
