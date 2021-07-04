@@ -12,17 +12,23 @@ from scipy.spatial import Voronoi, voronoi_plot_2d
 
 pd.set_option('display.max_rows', None)
 
-def process_coords(places):
+def process_headers(input_df):
+  # rename headers based on order to format that the script can read
+  renamed_df = input_df.set_axis(['Label', 'Y-Coord', 'X-Coord', 'Colour'], axis=1)
+  print(renamed_df)
+  return renamed_df
+
+def process_coords(input_df):
   # convert subset coords from input csv to numpy array
-  coords = places[['Longitude','Latitude']].values
+  coords = input_df[['X-Coord', 'Y-Coord']].values
   # add dummy rows to array
   coords = np.append(coords, [[999,999], [-999,999], [999,-999], [-999,-999]], axis = 0)
 
   return coords
 
-def process_colours(places):
+def process_colours(input_df):
   # add dummy rows to array
-  colourFlag = np.append(places[['Been']].values, [['N'], ['N'], ['N'], ['N']], axis = 0).flatten()
+  colourFlag = np.append(input_df[['Colour']].values, [['N'], ['N'], ['N'], ['N']], axis = 0).flatten()
   # assign a random colour to the array if visited, leave white if not
   r = lambda: random.randint(0,255)
   colours = list(map(lambda flag: '#%02X%02X%02X' % (r(),r(),r()) if (flag == 'Y') else 'w', colourFlag))
@@ -33,14 +39,17 @@ def main(incsv, outplot, plot_type):
   # read places, with lat and lon
   places = pd.read_csv(incsv)
 
+  # rename headers based on order to format that the script can read
+  new_places = process_headers(places)
+
   # convert subset coords from input csv to numpy array, add dummy rows
-  coords = process_coords(places)
+  coords = process_coords(new_places)
 
   # compute voronoi tesselation
   vor = Voronoi(coords)
 
   # assign a random colour to the array if visited, leave white if not
-  colours = process_colours(places)
+  colours = process_colours(new_places)
 
   # plot voronoi diagram
   fig = plt.figure(figsize=(20,16))
@@ -58,10 +67,10 @@ def main(incsv, outplot, plot_type):
 
   # fix the range of axes, plot locations
   plt.plot(coords[:,0], coords[:,1], 'ko')
-  plt.xlim([places['Longitude'].min() - 0.6, places['Longitude'].max() + 0.6]), plt.ylim([places['Latitude'].min() - 0.6, places['Latitude'].max() + 0.6])
+  plt.xlim([new_places['X-Coord'].min() - 0.6, new_places['X-Coord'].max() + 0.6]), plt.ylim([new_places['Y-Coord'].min() - 0.6, new_places['Y-Coord'].max() + 0.6])
 
   # annotate each point with the place name
-  [plt.annotate(places['Place'][i], (coords[i,0], coords[i,1]), xytext=(coords[i,0]-0.1, coords[i,1]+0.1), fontsize=12) for i in range(len(places))]
+  [plt.annotate(new_places['Label'][i], (coords[i,0], coords[i,1]), xytext=(coords[i,0]-0.1, coords[i,1]+0.1), fontsize=12) for i in range(len(new_places))]
   fig.savefig(outplot + "." + plot_type, format=plot_type, bbox_inches='tight')
   print("SAVED: " + outplot + "." + plot_type)
 
