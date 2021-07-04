@@ -1,5 +1,5 @@
 # voronoi-mapper
-Plot a series of places on a map in the style of a Voronoi diagram, based on an input csv/txt file formatted in the following style (columns in this order - the column header names do not matter):
+Plot a series of places on a map in the style of a Voronoi diagram, based on an input csv file formatted in the following style (columns in this order - the column header names do not matter):
 
 | Labels / Places | X-Coord / Latitude | Y-Coord / Longitude | Colour Place / Been to Place |
 |:---------------:|:------------------:|:-------------------:|:----------------------------:|
@@ -10,7 +10,7 @@ Plot a series of places on a map in the style of a Voronoi diagram, based on an 
 |      Wales      |            52.1307 |              3.7837 |               Y              |
 
 ## Step 1: Clone `voronoi-mapper` repo
-Clone the `voronoi-mapper` repo to your area. Note you may need to set up ssh keys and add them to your GitHub account first.
+Clone the `voronoi-mapper` repo to your area. Note you may need to set up ssh keys and add them to your GitHub account first, see [here](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
 ```bash
 git clone git@github.com:GluonicPenguin/voronoi-mapper.git
@@ -34,18 +34,20 @@ export PYTHONNOUSERSITE=true
 Then back in your `voronoi-mapper` directory, set up the environment:
 
 ```bash
-conda env create -f voronoi_mapper_env_requirements.yml
+conda env create -f mapper_env_requirements.yml
 conda activate voronoi_mapper_env
 ```
 
 ## Step 3: Use mapper
 
-`voronoi-mapper` takes two positional arguments: the input csv/txt file and the output file name and path. An optional argument for the output plot type, e.g. pdf or png, is available (default is pdf). For example:
+`voronoi-mapper` takes two positional arguments: the input csv file and the output file name and path. An optional argument for the output plot type, e.g. pdf or png, is available (default is pdf). For example:
 
 ```
-python voronoi_mapper.py /path/to/places.csv /path/for/outplot.png -p png
+python voronoi_mapper.py /path/to/places.csv /path/for/places_plot
 ```
 
+The result should look like the following:
 
+![Alt text](examples/places_plot.png?raw=true "Default example of places")
 
 
