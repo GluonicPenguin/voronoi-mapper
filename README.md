@@ -34,7 +34,7 @@ export PYTHONNOUSERSITE=true
 Then back in your `voronoi-mapper` directory, set up the environment:
 
 ```bash
-conda env create -f voronoi_mapper_env_requirements.yaml
+conda env create -f voronoi_mapper_env_requirements.yml
 conda activate voronoi_mapper_env
 ```
 
