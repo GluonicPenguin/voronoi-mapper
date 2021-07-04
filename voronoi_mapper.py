@@ -15,7 +15,7 @@ pd.set_option('display.max_rows', None)
 def process_headers(input_df):
   # rename headers based on order to format that the script can read
   renamed_df = input_df.set_axis(['Label', 'Y-Coord', 'X-Coord', 'Colour'], axis=1)
-  print(renamed_df)
+
   return renamed_df
 
 def process_coords(input_df):
