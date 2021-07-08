@@ -38,6 +38,8 @@ conda env create -f mapper_env_requirements.yml
 conda activate voronoi_mapper_env
 ```
 
+In future setups, use the `setup_env.sh` file to start up the `voronoi-mapper` environment. Note that you will need to change the first line to the `MINICONDA_DIR`.
+
 ## Step 3: Use mapper
 
 `voronoi-mapper` takes two positional arguments: the input csv file and the output file name and path. An optional argument for the output plot type, e.g. pdf or png, is available (default is pdf). For example:
