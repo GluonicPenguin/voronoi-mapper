@@ -42,7 +42,7 @@ In future setups, use the `setup_env.sh` file to start up the `voronoi-mapper` e
 
 ## Step 3: Use mapper
 
-`voronoi-mapper` takes two positional arguments: the input csv file and the output file name and path. An optional argument for the output plot type, e.g. pdf or png, is available (default is pdf). For example:
+`voronoi-mapper` takes two positional arguments: the input csv file and the output file name and path. An optional argument for the output plot type, e.g. pdf or png, is available (default is png). For example:
 
 ```
 python voronoi_mapper.py /path/to/places.csv /path/for/places_plot
@@ -52,4 +52,10 @@ The result should look like the following:
 
 ![Alt text](examples/places_plot.png?raw=true "Default example of places")
 
+## Step 4: Customisation options
 
+`voronoi-mapper` can be modified at the dataframe stage to any format that will appear at the Voronoi diagram creation stage. The options currently are:
+
+```
+-f, --fisheye some_label # choose to magnify the diagram about a central point or label, good if there are a lot of places clustered together in one area
+```
