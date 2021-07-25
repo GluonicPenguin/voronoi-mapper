@@ -18,6 +18,18 @@ def process_headers(input_df):
 
   return renamed_df
 
+def magnify_on(input_df, label):
+  # set "label" as centre-point, and magnify other points proportional to absolute distance from it
+  coord_pair = [input_df.loc[input_df['Label'] == label, 'X-Coord'].iloc[0], input_df.loc[input_df['Label'] == label, 'Y-Coord'].iloc[0]]
+  input_df['X-Diff'] = input_df['X-Coord'] - coord_pair[0]
+  input_df['Y-Diff'] = input_df['Y-Coord'] - coord_pair[1]
+  # define metric as square of difference and use 1/metric as multiplier for coord values
+  input_df['absolute_diff'] = input_df['X-Diff']**2 + input_df['Y-Diff']**2
+  input_df[['X-Coord', 'Y-Coord']] = input_df[['X-Coord'], 'Y-Coord']] / input_df['absolute_diff']
+  input_df = input_df.drop(['X-Diff', 'Y-Diff', 'absolute_diff'], axis=1, inplace=True)
+  
+  return input_df
+
 def process_coords(input_df):
   # convert subset coords from input csv to numpy array
   coords = input_df[['X-Coord', 'Y-Coord']].values
@@ -35,13 +47,17 @@ def process_colours(input_df):
 
   return colours
 
-def main(incsv, outplot, plot_type):
+def main(incsv, outplot, plot_type, fisheye):
   # read places, with lat and lon
   places = pd.read_csv(incsv)
 
   # rename headers based on order to format that the script can read
   new_places = process_headers(places)
-
+  
+  # magnify latitude and longitude based on a place name
+  if fisheye != "":
+    new_places = magnify_on(new_places, fisheye)
+    
   # convert subset coords from input csv to numpy array, add dummy rows
   coords = process_coords(new_places)
 
@@ -80,6 +96,7 @@ if __name__ == "__main__":
     parser.add_argument("incsv", type=str, help="Input csv file listing places and coords")
     parser.add_argument("outplot", type=str, help="Output plot name and path")
     parser.add_argument("-p", "--plot_type", type=str, default="png", help="Plot format type, e.g. pdf, png, dpi (default png)")
+    parser.add_argument("-f", "--fisheye", type=str, default="", help="Magnify points closest to a place like a fisheye")
     args = parser.parse_args()
 
-    main(args.incsv, args.outplot, args.plot_type)
+    main(args.incsv, args.outplot, args.plot_type, args.fisheye)
