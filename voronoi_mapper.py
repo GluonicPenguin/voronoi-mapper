@@ -23,11 +23,23 @@ def magnify_on(input_df, label):
   coord_pair = [input_df.loc[input_df['Label'] == label, 'X-Coord'].iloc[0], input_df.loc[input_df['Label'] == label, 'Y-Coord'].iloc[0]]
   input_df['X-Diff'] = input_df['X-Coord'] - coord_pair[0]
   input_df['Y-Diff'] = input_df['Y-Coord'] - coord_pair[1]
-  # define metric as square of difference and use 1/metric as multiplier for coord values
-  input_df['absolute_diff'] = input_df['X-Diff']**2 + input_df['Y-Diff']**2
-  input_df[['X-Coord', 'Y-Coord']] = input_df[['X-Coord'], 'Y-Coord']] / input_df['absolute_diff']
-  input_df = input_df.drop(['X-Diff', 'Y-Diff', 'absolute_diff'], axis=1, inplace=True)
-  
+  # normalise X and Y into rate [-1,1] and convert to polar coords
+  scales = [np.abs(input_df['X-Diff']).max(), np.abs(input_df['Y-Diff']).max()]
+  print(input_df['X-Diff'])
+  print(input_df['Y-Diff'])
+  print(scales)
+  input_df['r'] = np.sqrt((input_df['X-Diff']/scales[0])**2 + (input_df['Y-Diff']/scales[1])**2)
+  input_df['r'] = input_df['r'] / input_df['r'].max()
+  input_df['theta'] = np.arctan2(input_df['Y-Diff']/input_df['r'].max(), input_df['X-Diff']/input_df['r'].max())
+  print(np.sqrt(1 - input_df['r']**2))
+  input_df['r_prime'] = input_df['r'] + 0.5 * (1 - np.sqrt(1 - input_df['r']**2))
+  input_df['X-Coord'] = input_df['r_prime'] * np.cos(input_df['theta'])
+  input_df['Y-Coord'] = input_df['r_prime'] * np.sin(input_df['theta'])
+  #input_df.loc[input_df['Label'] == label, 'X-Coord'] = coord_pair[0]
+  #input_df.loc[input_df['Label'] == label, 'Y-Coord'] = coord_pair[1]
+  input_df.drop(['X-Diff', 'Y-Diff', 'r', 'theta', 'r_prime'], axis=1, inplace=True)
+  print(input_df)
+
   return input_df
 
 def process_coords(input_df):
@@ -55,7 +67,7 @@ def main(incsv, outplot, plot_type, fisheye):
   new_places = process_headers(places)
   
   # magnify latitude and longitude based on a place name
-  if fisheye != "":
+  if fisheye != "no-fisheye-magnification":
     new_places = magnify_on(new_places, fisheye)
     
   # convert subset coords from input csv to numpy array, add dummy rows
@@ -96,7 +108,7 @@ if __name__ == "__main__":
     parser.add_argument("incsv", type=str, help="Input csv file listing places and coords")
     parser.add_argument("outplot", type=str, help="Output plot name and path")
     parser.add_argument("-p", "--plot_type", type=str, default="png", help="Plot format type, e.g. pdf, png, dpi (default png)")
-    parser.add_argument("-f", "--fisheye", type=str, default="", help="Magnify points closest to a place like a fisheye")
+    parser.add_argument("-f", "--fisheye", type=str, default="no-fisheye-magnification", help="Magnify points closest to a place like a fisheye")
     args = parser.parse_args()
 
     main(args.incsv, args.outplot, args.plot_type, args.fisheye)
